@@ -1,5 +1,6 @@
 import sys
 import os
+from datetime import datetime
 
 def display_home_screen():
     """Displays the home screen menu and handles user input."""
@@ -37,10 +38,12 @@ def display_home_screen():
             print("\nInvalid option. Please choose a valid option (1-6).\n")
 
 def log_workout():
-    """Logs a workout with flexible options and saves to a file."""
+    """Logs a workout with flexible options, including date, and saves to a file."""
     print("\n" + "=" * 40)
     print("            LOG YOUR WORKOUT          ")
     print("=" * 40)
+    
+    # Prompt for workout type
     print("\nEnter workout type (e.g., Running, Yoga):")
     print("[1] Running")
     print("[2] Yoga")
@@ -64,10 +67,21 @@ def log_workout():
         print("\nInvalid option. Returning to Home Screen...\n")
         return
 
+    # Prompt for date
+    while True:
+        date_input = input("Enter the date in YYYY-MM-DD format (e.g., 2024-01-28): ")
+        try:
+            workout_date = datetime.strptime(date_input, "%Y-%m-%d")
+            break  # Exit the loop if the date is valid
+        except ValueError:
+            print("\nInvalid date format. Please enter the date in YYYY-MM-DD format.")
+
+    # Prompt for workout duration
     duration = input("Enter workout duration (minutes): ")
     notes = input("Optional notes: ")
 
-    workout_entry = f"{workout_type} - {duration} minutes"
+    # Create the workout entry string
+    workout_entry = f"{workout_date.strftime('%Y-%m-%d')} - {workout_type} - {duration} minutes"
     if notes:
         workout_entry += f" - Notes: {notes}"
 
